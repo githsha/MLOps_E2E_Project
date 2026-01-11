@@ -1,0 +1,33 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python src/data_validation.py
+    deps:
+    - path: data/raw/reviews.csv
+      hash: md5
+      md5: 5f879c5cff6debc17318cbedc773cxe4
+      size: 1863
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: data/raw/reviews.csv
+      hash: md5
+      md5: 5f879c5cff6debc17318cbedc773cxe4
+      size: 1863
+    outs:
+    - path: data/processed/clean.csv
+      hash: md5
+      md5: 9181452680f23fb94c22290f94ea4d2b
+      size: 1863
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/clean.csv
+      hash: md5
+      md5: 9181452680f23fb94c22290f94ea4d2b
+      size: 1863
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 6fb547f9c7420ffcd789c20f7ac9f3cc
+      size: 6588

@@ -1,0 +1,6 @@
+[core]
+    remote = myremote
+['remote "s3remote"']
+    url = s3://s3-thsha-bucket
+['remote "myremote"']
+    url = s3://s3-thsha-bucket/DVC_MLFlow/

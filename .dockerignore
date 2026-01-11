@@ -1,0 +1,9 @@
+.git
+.dvc
+data
+__pycache__
+*.pyc
+.env
+mlruns
+monitoring
+k8s

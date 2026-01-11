@@ -1,0 +1,13 @@
+# Core ML
+numpy
+pandas
+scikit-learn
+joblib
+
+# API
+fastapi
+uvicorn
+
+
+mlflow==3.7.0
+boto3

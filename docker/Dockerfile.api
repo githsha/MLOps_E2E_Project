@@ -1,0 +1,35 @@
+# Base image (stable for ML + FastAPI)
+FROM python:3.10-slim
+
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory inside container
+WORKDIR /app
+RUN pip install --no-cache-dir "dvc[s3]"
+
+# Copy dependency list first (layer caching)
+COPY requirements.api.txt .
+COPY dvc.yaml .
+# Install only required dependencies
+RUN pip install --no-cache-dir -r requirements.api.txt
+
+
+# Copy API source code
+COPY api/ api/
+COPY src/ src/
+RUN mkdir -p /app/data
+RUN mkdir -p /app/data/processed
+RUN mkdir -p /app/data/raw
+COPY dvc.lock .
+
+# Copy trained model (for now)
+COPY models/ models/
+
+# Expose FastAPI port
+EXPOSE 8000
+EXPOSE 30080
+
+# Start FastAPI server
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
